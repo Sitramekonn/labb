@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longest Bridges in America</title>
+
+    <!-- Leaflet CSS to style map components -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <style>
+        #bridge-map {
+            width: 600px;
+            height: 400px;
+            margin: 20px auto;
+            border: 2px solid #000;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Map of the Longest Bridges in the US</h1>
+
+<!-- Map container for Leaflet map -->
+<div id="bridge-map"></div>
+
+<!-- Leaflet JavaScript to create the interactive map -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+<script>
+    // Array of bridges with location and span information
+    const bridges = [
+        { name: "Verrazano-Narrows Bridge", span: 1298.4, location: [40.6066, -74.0447] },
+        { name: "Golden Gate Bridge", span: 1280.2, location: [37.8199, -122.4783] },
+        { name: "Mackinac Bridge", span: 1158.0, location: [45.8174, -84.7278] },
+        { name: "George Washington Bridge", span: 1067.0, location: [40.8517, -73.9527] },
+        { name: "Tacoma Narrows Bridge", span: 853.44, location: [47.2690, -122.5517] }
+    ];
+
+    // Initialize the map and set its view to the USA
+    const map = L.map('bridge-map').setView([39.8283, -98.5795], 4);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Custom bridge icon
+    const bridgeIcon = L.icon({
+        iconUrl: 'bridge_icon.png', // Path to the icon, assuming it's in the same folder as this HTML file
+        iconSize: [30, 30], // Adjust the size as necessary
+        iconAnchor: [15, 30], // Anchor point to center the icon
+        popupAnchor: [0, -30] // Position the popup correctly above the icon
+    });
+
+    // Loop through the bridges array and add markers with the custom icon
+    bridges.forEach(bridge => {
+        L.marker(bridge.location, { icon: bridgeIcon }).addTo(map)
+            .bindPopup(`<b>${bridge.name}</b><br>Span: ${bridge.span} meters`);
+    });
+
+</script>
+
+</body>
+</html>
